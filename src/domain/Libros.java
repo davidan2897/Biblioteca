@@ -4,7 +4,6 @@
 
 package domain;
 
-import domain.Catalogo;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,6 +15,15 @@ import javax.swing.JOptionPane;
  * 
  */
 public class Libros extends Catalogo {
+     public Libros(String titulo, String fechaIngreso, String Autor,String codigoISBN,String Tema,String subtema) {
+        super(titulo, fechaIngreso, Autor);
+        this.codigoISBN=codigoISBN;
+        this.Tema=Tema;
+        this.subtema=subtema;
+    }
+
+
+
 	/**
 	 * 
 	 */
@@ -28,6 +36,8 @@ public class Libros extends Catalogo {
 	 * 
 	 */
 	private String subtema;
+
+  
 
     public String getCodigoISBN() {
         return codigoISBN;
@@ -72,10 +82,4 @@ public class Libros extends Catalogo {
         return ps;
     }
 
-    public Libros(String titulo, String fechaIngreso, String Autor,String codigoISBN,String Tema,String subtema) {
-        super(titulo, fechaIngreso, Autor);
-        this.codigoISBN=codigoISBN;
-        this.Tema=Tema;
-        this.subtema=subtema;
-    }
-};
+} 

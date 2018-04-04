@@ -6,11 +6,7 @@ package domain;
 
 //hola mundo
 import domain.Usuarios;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
-import javax.swing.JOptionPane;
 
 
 /************************************************************/
@@ -39,25 +35,11 @@ public class Autores extends Usuarios
 
 	
 	public void Agregar(Autores au) {
-		// TODO Auto-generated method stub
-		 PrintStream ps = getPrintStream("Usuarios.txt");
+		   PrintStream ps = getPrintStream("Usuarios.txt");
 
         ps.println(au.getUnicoNombre() + ";" + au.getContraseña()+ ";" + au.getNombreCompleto()+ ";" + au.getTipoID() + ";" + au.getIdentificacion()+";"+au.gettipoUsuario());
-	}
-         public PrintStream getPrintStream(String nombreArchivo) {
-        File archivo = new File(nombreArchivo);
-        PrintStream ps = null;
-        try {
-            FileOutputStream fos = new FileOutputStream(archivo, true);
-            ps = new PrintStream(fos);
-
-        } catch (FileNotFoundException fnfe) {
-            JOptionPane.showMessageDialog(null, "error");
-            
-        }
-        return ps;
-    }
-
+	
+                }
 	@Override
 	public boolean Buscar() {
 		// TODO Auto-generated method stub

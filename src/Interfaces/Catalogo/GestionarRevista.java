@@ -94,7 +94,7 @@ public class GestionarRevista {
                 
                 Revistas revista=new Revistas(titulo, fechaIngreso, autor, codigoIssn, Edicion);
                 revista.Agregar(revista);
-                JOptionPane.showMessageDialog(null,"Autor agregado con exito :)");
+                JOptionPane.showMessageDialog(null,"Revista agregada con exito :)");
                  Limpiar();
                 
             }
@@ -110,7 +110,7 @@ public class GestionarRevista {
       texfieldTituloRevista.setText("");
       textfieldAutor.setText("");
       textfieldCodigoIssn.setText("");
-    
+       textareaEdicion.setText("");
             }
     private boolean verificaInfo(){
          if(texfieldTituloRevista.getText().isEmpty())
@@ -118,6 +118,8 @@ public class GestionarRevista {
          else if(textfieldAutor.getText().isEmpty())
              return true;
          else if(textfieldCodigoIssn.getText().isEmpty())
+             return true;
+          else if(textareaEdicion.getText().isEmpty())
              return true;
          else
              return false;

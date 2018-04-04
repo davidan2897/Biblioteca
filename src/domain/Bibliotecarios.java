@@ -55,28 +55,13 @@ public class Bibliotecarios extends Usuarios
 		// TODO Auto-generated method stub
 		
 	}
-         public PrintStream getPrintStream(String nombreArchivo) {
-        File archivo = new File(nombreArchivo);
-        PrintStream ps = null;
-        try {
-            FileOutputStream fos = new FileOutputStream(archivo, true);
-            ps = new PrintStream(fos);
-
-        } catch (FileNotFoundException fnfe) {
-            JOptionPane.showMessageDialog(null, "error");
-            
-        }
-        return ps;
-    }
+         
 
     public void Agregar(Bibliotecarios bi, Autores au) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     
-    public void Agregar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+  
     
 };

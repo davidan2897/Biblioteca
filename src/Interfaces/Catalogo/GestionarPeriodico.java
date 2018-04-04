@@ -97,7 +97,7 @@ public class GestionarPeriodico {
                  fechaPeriodico=fecha.getText();
                 Periodicos periodico=new Periodicos(titulo, fechaIngreso, autor, codigoIssn, Edicion, fechaPeriodico);
                 periodico.Agregar(periodico);
-                JOptionPane.showMessageDialog(null,"Autor agregado con exito :)");
+                JOptionPane.showMessageDialog(null,"Periodico agregado con exito :)");
                  Limpiar();
                 
             }
@@ -113,7 +113,8 @@ public class GestionarPeriodico {
       texfieldTitulomemoria.setText("");
       textfieldAutor.setText("");
       textfieldCodigoIssn.setText("");
-    
+      textareaEdicion.setText("");
+      fecha.setText("");
             }
     private boolean verificaInfo(){
          if(texfieldTitulomemoria.getText().isEmpty())
@@ -121,6 +122,10 @@ public class GestionarPeriodico {
          else if(textfieldAutor.getText().isEmpty())
              return true;
          else if(textfieldCodigoIssn.getText().isEmpty())
+             return true;
+          else if(textareaEdicion.getText().isEmpty())
+             return true;
+           else if(fecha.getText().isEmpty())
              return true;
          else
              return false;

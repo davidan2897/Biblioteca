@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interfaces;
+package PantallasPrincipales;
 
 import Interfaces.Catalogo.GestionarLibros;
 import Interfaces.Catalogo.GestionarMemorias;
 import Interfaces.Catalogo.GestionarPeriodico;
 import Interfaces.Catalogo.GestionarRevista;
+import Interfaces.Catalogo.GestionarTesis;
 import Interfaces.Usuarios.GestionarAutores;
 import Interfaces.Usuarios.GestionarBibliotecarios;
 import Interfaces.Usuarios.GestionarUsuarios;
@@ -26,15 +27,15 @@ import javafx.scene.layout.VBox;
 public class PantallaBibliotecario {
     //instancias globales
       
-    GestionarBibliotecarios interAU = new GestionarBibliotecarios();
-    GestionarAutores interABMzutores = new GestionarAutores();
-    GestionarUsuarios interUsuarios=new GestionarUsuarios();
+    GestionarBibliotecarios gestioBibliotecarios = new GestionarBibliotecarios();
+    GestionarAutores gestioAutores = new GestionarAutores();
+    GestionarUsuarios gestioUsuarios=new GestionarUsuarios();
     GestionarMemorias interMemorias=new GestionarMemorias();
     GestionarPeriodico interPeriodico=new GestionarPeriodico();
-    GestionarLibros interlibros=new GestionarLibros();
-    
-    GestionarRevista interrevista=new GestionarRevista();
-    public VBox InterBibliotecario() {
+    GestionarRevista interrevista = new GestionarRevista();
+    GestionarLibros gestioLibros=new GestionarLibros();
+    GestionarTesis gestioTesis = new GestionarTesis();
+        public VBox InterBibliotecario() {
 
         VBox vbVentanas = new VBox();
         VBox Vboxbarra = new VBox();
@@ -54,27 +55,27 @@ public class PantallaBibliotecario {
         MenuItem UsuarioItemAg = new MenuItem("Usuarios");
         UsuarioItemAg.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-            vbVentanas.getChildren().addAll(interUsuarios.AgregarAutor());
+            vbVentanas.getChildren().addAll(gestioUsuarios.AgregarAutor());
             
         });
         MenuItem AutoresItemAg = new MenuItem("Autores");
         AutoresItemAg.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-                vbVentanas.getChildren().addAll(interABMzutores.AgregarAutor());
+                vbVentanas.getChildren().addAll(gestioAutores.AgregarAutor());
         });
         MenuItem BibliotecariosItemAg = new MenuItem("Bibliotecarios");
         BibliotecariosItemAg.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
              
-            vbVentanas.getChildren().addAll(interAU.interAddBibliotecario());
+            vbVentanas.getChildren().addAll(gestioBibliotecarios.interAddBibliotecario());
         });
-        //MenusItemsCatalogoAgregar
+       //MenusItemsCatalogoAgregar
       Menu menuCatalogoAg = new Menu("Catalogo");
         MenuItem LibrosItemAg = new MenuItem("Libros");
         LibrosItemAg.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
              
-           vbVentanas.getChildren().addAll(interlibros.AgregarLibros());
+           vbVentanas.getChildren().addAll(gestioLibros.AgregarLibros());
         });
         MenuItem PeriodicosItemAg = new MenuItem("Periodicos");
         PeriodicosItemAg.setOnAction((event) -> {
@@ -90,7 +91,7 @@ public class PantallaBibliotecario {
         MenuItem TesisItemAg = new MenuItem("Tesis");
         TesisItemAg.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+       vbVentanas.getChildren().addAll(gestioTesis.AgregarTesis());
         });
         MenuItem MemoriasItemAg = new MenuItem("Memorias");
         MemoriasItemAg.setOnAction((event) -> {
@@ -99,50 +100,47 @@ public class PantallaBibliotecario {
         });
 
         //MenusItemBorrar
-        Menu menuUsuariosBo = new Menu("Usuarios");
+       
         Menu menuCatalogoBo = new Menu("Catalogo");
 
         MenuItem UsuarioItemBo = new MenuItem("Usuarios");
         UsuarioItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-            vbVentanas.getChildren().addAll(interAU.interAddBibliotecario());
+            vbVentanas.getChildren().addAll(gestioBibliotecarios.ventanaBorrar());
         });
-        MenuItem AutoresItemBo = new MenuItem("Autores");
-        AutoresItemBo.setOnAction((event) -> {
-            vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
-        });
-        MenuItem BibliotecariosItemBo = new MenuItem("Bibliotecarios");
-        BibliotecariosItemBo.setOnAction((event) -> {
-            vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
-        });
+       
+        //MenusItemBorrar
+      
+        
+        
+  
+      
         //MenusItemsCatalogoBorrar
 
         MenuItem LibrosItemBo = new MenuItem("Libros");
         LibrosItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         MenuItem PeriodicosItemBo = new MenuItem("Periodicos");
         PeriodicosItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         MenuItem RevistasItemBo = new MenuItem("Revistas");
         RevistasItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         MenuItem TesisItemBo = new MenuItem("Tesis");
         TesisItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         MenuItem MemoriasItemBo = new MenuItem("Memorias");
         MemoriasItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
          //MenusItemActualizar
         Menu menuUsuariosAc = new Menu("Usuarios");
@@ -156,39 +154,39 @@ public class PantallaBibliotecario {
         MenuItem AutoresItemAc = new MenuItem("Autores");
         AutoresItemAc.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         MenuItem BibliotecariosItemAc = new MenuItem("Bibliotecarios");
         BibliotecariosItemAc.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         //MenusItemsCatalogoActualizar
 
         MenuItem LibrosItemAc = new MenuItem("Libros");
         LibrosItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         MenuItem PeriodicosItemAc = new MenuItem("Periodicos");
          PeriodicosItemAc.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         MenuItem RevistasItemAc = new MenuItem("Revistas");
         RevistasItemAc.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         MenuItem TesisItemAc = new MenuItem("Tesis");
         TesisItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         MenuItem MemoriasItemAc = new MenuItem("Memorias");
         MemoriasItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+
         });
         
        
@@ -198,13 +196,12 @@ public class PantallaBibliotecario {
         
         menuCatalogoAc.getItems().addAll(LibrosItemAc, RevistasItemAc, PeriodicosItemAc, TesisItemAc, MemoriasItemAc);
         menuUsuariosAc.getItems().addAll(UsuarioItemAc, AutoresItemAc, BibliotecariosItemAc);
-        menuUsuariosBo.getItems().addAll(UsuarioItemBo, AutoresItemBo, BibliotecariosItemBo);
         menuCatalogoBo.getItems().addAll(LibrosItemBo, RevistasItemBo, PeriodicosItemBo, TesisItemBo, MemoriasItemBo);
         menuCatalogoAg.getItems().addAll(LibrosItemAg, RevistasItemAg, PeriodicosItemAg, TesisItemAg, MemoriasItemAg);
         menuUsuariosAg.getItems().addAll(UsuarioItemAg, AutoresItemAg, BibliotecariosItemAg);
          menuModificar.getItems().addAll(menuUsuariosAc, menuCatalogoAc);
         menuAgregar.getItems().addAll(menuUsuariosAg, menuCatalogoAg);
-        menuBorrar.getItems().addAll(menuUsuariosBo, menuCatalogoBo);
+        menuBorrar.getItems().addAll(UsuarioItemBo, menuCatalogoBo);
 
         mbMenu.getMenus().addAll(menuAgregar, menuBorrar, menuModificar, menuMostar,menuBuscar);
        

@@ -1,8 +1,12 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Interfaces.Catalogo;
 
-import domain.Libros;
-import domain.Memorias;
+import domain.Periodicos;
+import domain.Tesis;
 import java.time.LocalDate;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -19,51 +23,44 @@ import javax.swing.JOptionPane;
  *
  * @author UsuarioPC
  */
-public class GestionarMemorias {
+public class GestionarTesis {
      public String titulo;
     
     public String autor;
-     static String nombreConferenci;
+     static String Resumen;
+      public String fechaIngreso;
       static String abstrac;
-    public String resumen;
-    public String fechaIngreso;
-     
-    TextField texfieldTitulomemoria ;
+    TextField texfieldTituloTesis ;
     TextField textfieldAutor;
-    TextField textfieldnombreConferencia;
     TextArea textareaResumen;
-    TextArea textareaAbstract;
+     TextArea textareaAbstract;
     Button btnAgregar;
     DatePicker datepickerFecha;
-    public GridPane AgregarMemorias(){
+    public GridPane AgregarTesis(){
     GridPane gpVentanaLibros = new GridPane();
         btnAgregar = new Button("Agregar");
          datepickerFecha = new DatePicker();
-        Label labelTituloMemoria = new Label("Titulo");
-        gpVentanaLibros.add(labelTituloMemoria, 0, 0);
-        texfieldTitulomemoria = new TextField();
-        gpVentanaLibros.add(texfieldTitulomemoria, 1, 0);
+        Label labelTituloTesis = new Label("Titulo");
+        gpVentanaLibros.add(labelTituloTesis, 0, 0);
+        texfieldTituloTesis = new TextField();
+        gpVentanaLibros.add(texfieldTituloTesis, 1, 0);
         Label labelAutor= new Label("Nombre del autor");
         gpVentanaLibros.add(labelAutor, 0, 1);
          textfieldAutor= new TextField();
         gpVentanaLibros.add(textfieldAutor, 1, 1);
-        Label nombreConferencia = new Label("Nombre de la conferencia");
-        gpVentanaLibros.add(nombreConferencia, 0, 2);
-         textfieldnombreConferencia = new TextField();
-        gpVentanaLibros.add(textfieldnombreConferencia, 1, 2);
-        Label labelResumen = new Label("Resumen");
-        gpVentanaLibros.add(labelResumen, 0, 3);
-        textareaResumen = new TextArea();
-         gpVentanaLibros.add(textareaResumen, 1, 3);
-        Label labelAbstract = new Label("Abstract");
+        Label resumen = new Label("Resumen");
+        gpVentanaLibros.add(resumen, 0, 2);
+         textareaResumen= new TextArea();
+        gpVentanaLibros.add(textareaResumen, 1, 2);
+         Label labelAbstract = new Label("Abstract");
         gpVentanaLibros.add(labelAbstract, 0, 4);
          textareaAbstract = new TextArea();
        gpVentanaLibros.add(textareaAbstract, 1, 4);
          Label labelFechaingreso = new Label("Fecha de ingreso");
-        gpVentanaLibros.add(labelFechaingreso, 0, 5);
-         gpVentanaLibros.add(datepickerFecha,1,5);
+        gpVentanaLibros.add(labelFechaingreso, 0, 3);
+         gpVentanaLibros.add(datepickerFecha,1,3);
 //        Msj = new Label("");
-           gpVentanaLibros.add(btnAgregar, 0, 6);
+           gpVentanaLibros.add(btnAgregar, 0, 5);
          textareaResumen.setPrefWidth(100);
          textareaResumen.setPrefHeight(100);
          textareaAbstract.setPrefWidth(100);
@@ -86,15 +83,14 @@ public class GestionarMemorias {
                 if(verificaInfo() == true)
            JOptionPane.showMessageDialog(null, "Porfavor ingrese toda la informacion necesaria.");
                 else{   
-                 titulo = texfieldTitulomemoria.getText();
+                 titulo = texfieldTituloTesis.getText();
                  autor= textfieldAutor.getText();
-                 nombreConferenci=textfieldnombreConferencia.getText();
-                
-                resumen = textareaResumen.getText();
-                 abstrac=textareaAbstract.getText();
-                Memorias memoria=new Memorias(titulo, fechaIngreso, autor, resumen, abstrac, nombreConferenci);
-                memoria.Agregar(memoria);
-                JOptionPane.showMessageDialog(null,"Memoria agregada con exito :)");
+                 Resumen=textareaResumen.getText();
+                  abstrac=textareaAbstract.getText();
+                 
+                Tesis tesis=new Tesis(titulo, fechaIngreso, autor, Resumen, abstrac);
+                tesis.Agregar(tesis);
+                JOptionPane.showMessageDialog(null,"Tesis agregada con exito :)");
                  Limpiar();
                 
             }
@@ -107,22 +103,19 @@ public class GestionarMemorias {
     
 }
     public void Limpiar(){
-      texfieldTitulomemoria.setText("");
+      texfieldTituloTesis.setText("");
       textfieldAutor.setText("");
-      textfieldnombreConferencia.setText("");
       textareaAbstract.setText("");
       textareaResumen.setText("");
             }
     private boolean verificaInfo(){
-         if(texfieldTitulomemoria.getText().isEmpty())
+         if(texfieldTituloTesis.getText().isEmpty())
              return true;
          else if(textfieldAutor.getText().isEmpty())
              return true;
-         else if(textfieldnombreConferencia.getText().isEmpty())
-             return true;
          else if(textareaAbstract.getText().isEmpty())
              return true;
-         else if(textareaResumen.getText().isEmpty())
+           else if(textareaResumen.getText().isEmpty())
              return true;
          else
              return false;

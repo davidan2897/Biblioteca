@@ -5,6 +5,7 @@
  */
 package Interfaces.Usuarios;
 
+import static Interfaces.Usuarios.GestionarAutores.tipoIdentifica;
 import domain.Autores;
 import domain.Usuario;
 import javafx.event.ActionEvent;
@@ -13,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-
 import javax.swing.JOptionPane;
 
 /**
@@ -32,7 +32,6 @@ public class GestionarUsuarios {
     TextField Tipoidentificacion;
     TextField identi;
     TextField contraseñ;
-    TextField tipoUsuari;
     Button btnAgregar;
     
     public GridPane AgregarAutor(){
@@ -61,7 +60,7 @@ public class GestionarUsuarios {
         gpVentanaBibliotecario.add(contraseñ, 1, 4);
          Label tipoUsuar = new Label("Tipo de Usuario");
         gpVentanaBibliotecario.add(tipoUsuar, 0, 5);
-         tipoUsuari = new TextField();
+        TextField tipoUsuari = new TextField();
         gpVentanaBibliotecario.add(tipoUsuari, 1, 5);
 //        Msj = new Label("");
            gpVentanaBibliotecario.add(btnAgregar, 0, 7);
@@ -81,7 +80,7 @@ public class GestionarUsuarios {
                  identificacio = identi.getText();
                  contrase = contraseñ.getText();
                   tipoUsuario=tipoUsuari.getText();
-                    Usuario usuario=new Usuario(contrase, contrase, nombreComple, tipoIdentifica, identificacio, tipoUsuario);
+                    Usuario usuario=new Usuario(nombreUni, contrase, nombreComple, tipoIdentifica, identificacio,tipoUsuario);
                  usuario.Agregar(usuario);
                 JOptionPane.showMessageDialog(null,"Usuario agregado con exito :)");
                  Limpiar();
@@ -100,7 +99,6 @@ public void Limpiar(){
       Tipoidentificacion.setText("");
       identi.setText("");
       contraseñ .setText("");
-      tipoUsuari.setText("");
             }
      
             //Metodo que verifica que todos los espacios de informacion esten llenos

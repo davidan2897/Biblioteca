@@ -12,13 +12,18 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.StringTokenizer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,8 +42,9 @@ public class GestionarBibliotecarios {
     TextField Tipoidentificacion;
     TextField identi;
     TextField contraseñ;
-    TextField tipoUsuari;
     Button btnAgregar;
+ TextField campoTextoUsuario;
+    
    
 
     
@@ -69,7 +75,7 @@ public class GestionarBibliotecarios {
         gpVentanaBibliotecario.add(contraseñ, 1, 4);
          Label tipoUsuar = new Label("Tipo de Usuario");
         gpVentanaBibliotecario.add(tipoUsuar, 0, 5);
-        tipoUsuari = new TextField();
+        TextField tipoUsuari = new TextField();
         gpVentanaBibliotecario.add(tipoUsuari, 1, 5);
 //        Msj = new Label("");
            gpVentanaBibliotecario.add(btnAgregar, 0, 7);
@@ -107,7 +113,6 @@ public class GestionarBibliotecarios {
       Tipoidentificacion.setText("");
       identi.setText("");
       contraseñ .setText("");
-      tipoUsuari.setText("");
             }
      
             //Metodo que verifica que todos los espacios de informacion esten llenos
@@ -227,4 +232,186 @@ public class GestionarBibliotecarios {
         return br;
     } 
     
+ public BorderPane ventanaBorrar(){
+   
+     BorderPane BorrarVentana = new BorderPane();
+     GridPane ventanaCentroBorrar = new GridPane();
+     HBox OrdenBotones = new HBox();
+     Label etiquetaIngresoTipoUsuario = new Label("Tipo de Usuario:");
+     Label Ordenartop = new Label("\n\n\n\n\n\n");
+     Label Espacio = new Label("                ");
+    ComboBox<String> comboBoxtipoUsuario = new ComboBox();
+        comboBoxtipoUsuario.getItems().addAll("Usuario", "Autor", "Bibliotecario");
+   
+        Label etiquetaUsuario = new Label("Usuario:");
+    campoTextoUsuario = new TextField();
+    
+    
+     Button btnBorrar = new Button("Borrar");
+     Button btnIngresar= new Button("Ingresar");
+     Button btnCancelar = new Button("Cancelar");
+     
+     
+      btnBorrar.setDisable(true);
+        btnCancelar.setDisable(true);
+        
+        //Accion boton Ingresar
+        btnIngresar.setOnAction((event) -> {
+            
+              tipoUsuario = comboBoxtipoUsuario.getValue();
+              nombreUni= campoTextoUsuario.getText();
+              if(nombreUni.isEmpty()==true)
+                  JOptionPane.showMessageDialog(null,"No se ha ingresado ningun usuario" );
+              else
+     if(buscaUsuario(tipoUsuario, getArreglo(CantidadRegistrosUsuarios()), nombreUni  )==true){
+         btnBorrar.setDisable(false);
+         btnCancelar.setDisable(false);
+         btnIngresar.setDisable(true);
+         
+     }
+     else
+    JOptionPane.showMessageDialog(null, "Usuario no se encuentra en registro");
+          
+        });//fin btnIngresar
+        //Accion boton borrar
+        btnBorrar.setOnAction((event) -> {
+         
+            eliminarUsuario(tipoUsuario, getArreglo(CantidadRegistrosUsuarios()), nombreUni);
+            JOptionPane.showMessageDialog(null, "Usuario eliminado con exito");
+             btnBorrar.setDisable(true);
+             campoTextoUsuario.setText("");
+             btnIngresar.setDisable(false);
+             btnCancelar.setDisable(true);
+        });//fin borrar
+        btnCancelar.setOnAction((event) -> {
+            campoTextoUsuario.setText("");
+            btnBorrar.setDisable(true);
+            btnCancelar.setDisable(true);
+            btnIngresar.setDisable(false);
+            
+          });//fin botonCancelar
+        
+     OrdenBotones.getChildren().addAll(btnIngresar,btnBorrar,btnCancelar);
+     
+     
+     ventanaCentroBorrar.add(etiquetaIngresoTipoUsuario, 0, 0);
+     ventanaCentroBorrar.add(comboBoxtipoUsuario, 1, 0);
+   
+     ventanaCentroBorrar.add(etiquetaUsuario, 0, 2);
+     ventanaCentroBorrar.add(campoTextoUsuario, 1, 2);
+
+     ventanaCentroBorrar.add(OrdenBotones, 1, 4);
+     
+    
+            
+    BorrarVentana.setRight(Espacio);
+    BorrarVentana.setTop(Ordenartop);
+    BorrarVentana.setCenter(ventanaCentroBorrar);
+    ventanaCentroBorrar.setAlignment(Pos.CENTER);
+
+     
+     
+        return BorrarVentana;
+     
+     
+     
+     
+ }//finVentanaCerrar
+ 
+  public boolean buscaUsuario(String tipoUsuario, String a[],String usuario) {
+        String tipoUsuarioArchivo = "", usuarioArchivo = "",  aux ="";
+       
+        boolean encontrado = false;
+        for (int i = 0; i < a.length; i++) {
+            aux = a[i];
+
+            StringTokenizer st = new StringTokenizer(aux, ";");
+          
+            int controlaTokens = 1;
+            while (st.hasMoreTokens()) {
+
+                    if (controlaTokens == 1) 
+                        usuarioArchivo = st.nextToken();
+                     else if (controlaTokens == 2) 
+                        st.nextToken();
+                     else if (controlaTokens == 3) 
+                       st.nextToken();
+                    else if (controlaTokens == 4) 
+                         st.nextToken();
+                     else if (controlaTokens == 5) 
+                       st.nextToken();
+                    else if(controlaTokens==6)
+                     tipoUsuarioArchivo =  st.nextToken();
+                   
+                    controlaTokens++;
+                //Fin del While 2;
+            
+            }
+               
+            
+            if (tipoUsuario.equals(tipoUsuarioArchivo) && usuario.equalsIgnoreCase(usuarioArchivo)) {
+                encontrado = true;
+                break;
+            }//fin if
+            
+     
+        }//fin for i
+
+        return encontrado;
+    }//fin buscaClientes
+  
+  public String[] getArreglo(int cantidadRegistros) {
+        File archivo = new File("Usuarios.txt");
+        String array[] = new String[cantidadRegistros];
+        String c;
+        int i = 0;
+        try {
+            BufferedReader br = getBufferedReader("Usuarios.txt");
+            c = br.readLine();
+
+            while (i < cantidadRegistros) {
+                array[i] = c;
+                c = br.readLine();
+                i++;
+            }//fin while
+
+        }//fin try
+        catch (IOException ioe) {
+            JOptionPane.showMessageDialog(null, "Problemas");
+
+        }
+
+        return array;
+
+    }//fin getArreglo
+  
+ public void eliminarUsuario(String tipoUsuario, String a[],String Usuario) {
+         String usuarios="",nombreUsuario;
+       try{
+           PrintStream ps = new PrintStream("Usuarios.txt");
+
+            for (int i = 0; i < a.length; i++) {
+                  usuarios= a[i];
+               StringTokenizer sT = new StringTokenizer( usuarios, ";");
+                 nombreUsuario =sT.nextToken();
+                if (nombreUsuario.equals(Usuario)){ 
+                   
+                   usuarios = "-1";
+                }
+                if(!usuarios.equalsIgnoreCase("-1"))
+                  ps.println(usuarios);
+         
+            }//fin for
+           
+     
+
+    }//try
+      
+       catch(FileNotFoundException fnf){
+                JOptionPane.showMessageDialog(null, "Un error ha pasado: Contacte con su administrador."); 
+    }//fin catch
+    
+ 
+    }//fin eliminarUsuarios
+ 
 }
