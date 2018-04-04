@@ -6,7 +6,7 @@
 package main;
 
 
-import Interfaces.PantallaBibliotecario;
+import PantallasPrincipales.PantallaBibliotecario;
 import Interfaces.Usuarios.GestionarBibliotecarios;
 import javafx.application.Application;
 import javafx.scene.Scene;
