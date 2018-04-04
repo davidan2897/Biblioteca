@@ -5,6 +5,11 @@
 package domain;
 
 import domain.Catalogo;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import javax.swing.JOptionPane;
 
 /************************************************************/
 /**
@@ -24,6 +29,25 @@ public class Tesis extends Catalogo {
         super(titulo, fechaIngreso, Autor);
         this.Resumen=Resumen;
         this.Abstract=Abstract;
+    }
+     public void Agregar(Tesis tesis) {
+		// TODO Auto-generated method stub
+	 PrintStream ps = getPrintStream("Tesis.txt");
+
+        ps.println(tesis.getTitulo() + ";" + tesis.getFechaIngreso()+ ";" + tesis.getAutor()+ ";" + tesis.getResumen() + ";" + tesis.getAbstract());
+	}
+    public PrintStream getPrintStream(String nombreArchivo) {
+        File archivo = new File(nombreArchivo);
+        PrintStream ps = null;
+        try {
+            FileOutputStream fos = new FileOutputStream(archivo, true);
+            ps = new PrintStream(fos);
+
+        } catch (FileNotFoundException fnfe) {
+            JOptionPane.showMessageDialog(null, "error");
+            
+        }
+        return ps;
     }
 
     public String getResumen() {

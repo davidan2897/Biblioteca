@@ -95,7 +95,7 @@ public class GestionarLibros {
                  subtema=textareaSubtema.getText();
                 Libros libros=new Libros(titulo, fechaIngreso, autor, codigoisbn, tema, subtema);
                 libros.Agregar(libros);
-                JOptionPane.showMessageDialog(null,"Autor agregado con exito :)");
+                JOptionPane.showMessageDialog(null,"Libro agregado con exito :)");
                  Limpiar();
                 
             }
@@ -111,7 +111,8 @@ public class GestionarLibros {
       texfieldTituloLibro.setText("");
       textfieldAutor.setText("");
       textfieldCodigo.setText("");
-    
+      textareaTema.setText("");
+      textareaSubtema.setText("");
             }
     private boolean verificaInfo(){
          if(texfieldTituloLibro.getText().isEmpty())
@@ -119,6 +120,10 @@ public class GestionarLibros {
          else if(textfieldAutor.getText().isEmpty())
              return true;
          else if(textfieldCodigo.getText().isEmpty())
+             return true;
+          else if(textareaTema.getText().isEmpty())
+             return true;
+           else if(textareaTema.getText().isEmpty())
              return true;
          else
              return false;
