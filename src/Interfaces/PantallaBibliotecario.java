@@ -9,6 +9,7 @@ import Interfaces.Catalogo.GestionarLibros;
 import Interfaces.Catalogo.GestionarMemorias;
 import Interfaces.Catalogo.GestionarPeriodico;
 import Interfaces.Catalogo.GestionarRevista;
+import Interfaces.Catalogo.GestionarTesis;
 import Interfaces.Usuarios.GestionarAutores;
 import Interfaces.Usuarios.GestionarBibliotecarios;
 import Interfaces.Usuarios.GestionarUsuarios;
@@ -33,7 +34,8 @@ public class PantallaBibliotecario {
     GestionarPeriodico interPeriodico=new GestionarPeriodico();
     GestionarRevista interrevista = new GestionarRevista();
     GestionarLibros gestioLibros=new GestionarLibros();
-    public VBox InterBibliotecario() {
+    GestionarTesis gestioTesis = new GestionarTesis();
+        public VBox InterBibliotecario() {
 
         VBox vbVentanas = new VBox();
         VBox Vboxbarra = new VBox();
@@ -89,7 +91,7 @@ public class PantallaBibliotecario {
         MenuItem TesisItemAg = new MenuItem("Tesis");
         TesisItemAg.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
-//                vbVentanas.getChildren().addAll(interAU.interAddUsuario());
+       vbVentanas.getChildren().addAll(gestioTesis.AgregarTesis());
         });
         MenuItem MemoriasItemAg = new MenuItem("Memorias");
         MemoriasItemAg.setOnAction((event) -> {
