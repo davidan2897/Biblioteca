@@ -6,19 +6,24 @@
 package Interfaces.Usuarios;
 
 import domain.Bibliotecarios;
+import domain.CreayLeeArchivos;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.StringTokenizer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,14 +37,15 @@ public class GestionarBibliotecarios {
     static String tipoIdentifica;
     static String tipoUsuario;
     public String contrase;
+    String []datosArchivo;
     TextField nombreUnic;
     TextField nombreComplet;
-    TextField Tipoidentificacion;
+    TextField Tipoidentificacion, identificacionModificar, obra, mostrarIdentificacion;
     TextField identi;
     TextField contraseñ;
     TextField tipoUsuari;
-    Button btnAgregar;
-   
+    Button btnAgregar, actualizarBibliotecario;
+    Label mensajes, identificacion, mostarIdentificacion,nombre, mostrarNombre,contraseña,nombreUnico,TipoUsuario,Obra, usuarioActualiar;
 
     
      public GridPane interAddBibliotecario(){
@@ -226,5 +232,158 @@ public class GestionarBibliotecarios {
         }
         return br;
     } 
+ 
+ 
+ //Retorna interfaz del menu modificar
+     public GridPane modificarBibliotecario(){
+        //Crea Gridpane
+        GridPane modificaBibliotecario = new GridPane();
+        modificaBibliotecario.setHgap(10);
+        modificaBibliotecario.setVgap(10);
+        modificaBibliotecario.setPadding(new Insets(20));
+     
+         //Crea Gridpane
+        GridPane modificarBiliotecario = new GridPane();
+        modificarBiliotecario.setHgap(10);
+        modificarBiliotecario.setVgap(10);
+        modificarBiliotecario.setPadding(new Insets(20));
+        
+        //Crea labels y textfields
+        Label titulo = new Label("Modificar Bibliotecario");
+        titulo.setFont(Font.font(17));
+        
+        Label usuarioModificar = new Label("Introduzca la identificacion");
+        usuarioModificar.setFont(Font.font(17));
+        
+        identificacionModificar = new TextField();
+        identificacionModificar.setPromptText("Identificacion");
+
+        mensajes = new Label();
+        mensajes.setFont(Font.font(17));
+        
+        identificacion = new Label("Cédula");
+        identificacion.setFont(Font.font(17));
+        mostarIdentificacion = new Label();
+        mostarIdentificacion.setFont(Font.font(17));
+        
+        nombre = new Label("Nombre");
+        nombre.setFont(Font.font(17));
+        mostrarNombre = new Label();
+        mostrarNombre.setFont(Font.font(17));
+        
+        Obra = new Label("Teléfono");
+        Obra.setFont(Font.font(17));
+        obra = new TextField();
+        
+        nombreUnico = new Label("Correo");
+        nombreUnico.setFont(Font.font(17));
+        nombreUnic= new TextField();
+        
+        contraseña = new Label("Residencia");
+        contraseña.setFont(Font.font(17));
+        contraseñ = new TextField();
+        
+        
+        TipoUsuario = new Label("Dirección");
+        TipoUsuario.setFont(Font.font(17));
+        tipoUsuari = new TextField();
+        
+        //Oculta labels
+        ocultaComponentes(false);
+        
+        CreayLeeArchivos cyla= new CreayLeeArchivos();
+        
+           Button verifica = new Button("Verificar");
+        verifica.setFont(Font.font(17));
+        //Pregunta si el usuario existe y muestra los componentes
+        verifica.setOnAction(e -> {
+           
+            if(cyla.existeUsuario(identificacionModificar.getText(), "Bibliorecarios.txt")){
+                ocultaComponentes(true);
+                modificarBiliotecario.setVisible(true);
+                mensajes.setVisible(false);
+                
+                datosArchivo = cyla.getDatosEspecificos("Bibliotecarios.txt", identificacionModificar.getText());
+                
+                mostarIdentificacion.setText(datosArchivo[0]);
+                mostrarNombre.setText(datosArchivo[1]);
+                obra.setText(datosArchivo[2]);
+                nombreUnic.setText(datosArchivo[4]);
+                contraseñ.setText(datosArchivo[5]);
+                tipoUsuari.setText(datosArchivo[3]);
+                mensajes.setVisible(false);
+            }
+            else{
+                ocultaComponentes(false);
+                mensajes.setText("El cliente no existe");
+                modificarBiliotecario.setVisible(false);
+            }
+        });
+        //Agrega componentes al Gridpane
+        modificarBiliotecario.add(titulo, 1, 0);
+        modificarBiliotecario.add(usuarioActualiar, 0, 1);
+        modificarBiliotecario.add(identificacionModificar, 1, 1);
+        modificarBiliotecario.add(verifica, 1, 2);
+        modificarBiliotecario.add(identificacion, 0, 3);
+        modificarBiliotecario.add(mensajes, 1, 3);
+        modificarBiliotecario.add(mostarIdentificacion, 1, 3);
+        modificarBiliotecario.add(nombre, 0, 4);
+        modificarBiliotecario.add(mostrarNombre, 1, 4);
+        modificarBiliotecario.add(TipoUsuario, 0, 5);
+        modificarBiliotecario.add(tipoUsuari, 1, 5);
+        modificarBiliotecario.add(nombreUnico, 0, 6);
+        modificarBiliotecario.add(nombreUnic, 1, 6);
+        modificarBiliotecario.add(Obra, 0, 7);
+        modificarBiliotecario.add(obra, 1, 7);
+        modificarBiliotecario.add(getButtonModificarBibliotecario(), 0, 8);
+        
+    return modificarBiliotecario;
+    }//Fin modificarUsuarios
+     public Button getButtonModificarBibliotecario(){
+        //Crea boton
+        actualizarBibliotecario = new Button("Modificar Bibliotecario");
+       actualizarBibliotecario.setFont(Font.font(17));
+     actualizarBibliotecario.setVisible(false);
+        
+        //Actualiza los datos del autor
+       actualizarBibliotecario.setOnAction(e -> {
+          CreayLeeArchivos cyla= new CreayLeeArchivos();
+            cyla.actualizarUsuario(mostrarIdentificacion.getText(), mostrarNombre.getText(), Tipoidentificacion.getText(),
+                                   contraseñ.getText(), identi.getText(), nombreUnic.getText());
+            mensajes.setVisible(true);
+            mensajes.setText("El bibliotecario ha sido actualizado con exito");
+            ocultaComponentes(false);
+            identificacionModificar.setText("");
+            actualizarBibliotecario.setVisible(false);
+        });
+    return  actualizarBibliotecario;
+    }//Fin getButtonActualizarCliente
+    
+         
+    //Oculta y muestra componentes
+    public void ocultaComponentes(boolean visible){
+        mostarIdentificacion.setVisible(visible);
+        identificacion.setVisible(visible);
+        mostrarNombre.setVisible(visible);
+        nombre.setVisible(visible);
+        nombreUnic.setVisible(visible);
+        nombreUnico.setVisible(visible);
+        contraseñ.setVisible(visible);
+        contraseña.setVisible(visible);
+        tipoUsuari.setVisible(visible);
+        Tipoidentificacion.setVisible(visible);
+        obra.setVisible(visible);
+        Obra.setVisible(visible);
+       
+        //Limpia componentes
+        if(!visible){
+            mostarIdentificacion.setText("");
+            mostrarNombre.setText("");
+            contraseñ.setText("");
+            identi.setText("");
+            tipoUsuari.setText("");
+            obra.setText("");
+        }
+    }//Fin ocultaComponentes
     
 }
