@@ -120,6 +120,7 @@ public class PantallaBibliotecario {
         MenuItem LibrosItemBo = new MenuItem("Libros");
         LibrosItemBo.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
+            vbVentanas.getChildren().addAll(gestioLibros.ventanaBorrarLibro());
 
         });
         MenuItem PeriodicosItemBo = new MenuItem("Periodicos");
@@ -164,7 +165,7 @@ public class PantallaBibliotecario {
         //MenusItemsCatalogoActualizar
 
         MenuItem LibrosItemAc = new MenuItem("Libros");
-        LibrosItemBo.setOnAction((event) -> {
+        LibrosItemAc.setOnAction((event) -> {
             vbVentanas.getChildren().clear();
 
         });

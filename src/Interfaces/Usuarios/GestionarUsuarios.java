@@ -5,8 +5,6 @@
  */
 package Interfaces.Usuarios;
 
-import static Interfaces.Usuarios.GestionarAutores.tipoIdentifica;
-import domain.Autores;
 import domain.Usuario;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

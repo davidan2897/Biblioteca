@@ -5,7 +5,6 @@
 package domain;
 
 //hola mundo
-import domain.Usuarios;
 import java.io.PrintStream;
 
 

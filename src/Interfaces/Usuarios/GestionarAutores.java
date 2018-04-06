@@ -7,7 +7,6 @@ package Interfaces.Usuarios;
  */
 
 
-import static Interfaces.Usuarios.GestionarBibliotecarios.tipoIdentifica;
 import domain.Autores;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

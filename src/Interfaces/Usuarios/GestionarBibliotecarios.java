@@ -37,6 +37,7 @@ public class GestionarBibliotecarios {
     static String tipoIdentifica;
     static String tipoUsuario;
     public String contrase;
+  ;
     TextField nombreUnic;
     TextField nombreComplet;
     TextField Tipoidentificacion;

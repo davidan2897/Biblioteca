@@ -5,11 +5,7 @@
  */
 package domain;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,19 +29,7 @@ public class Periodicos extends Catalogo {
 
         ps.println(periodicos.getTitulo() + ";" + periodicos.getFechaIngreso()+ ";" + periodicos.getAutor()+ ";" + periodicos.getCodigoISSN() + ";" + periodicos.getEdicion()+";"+periodicos.getFecha());
 	}
-    public PrintStream getPrintStream(String nombreArchivo) {
-        File archivo = new File(nombreArchivo);
-        PrintStream ps = null;
-        try {
-            FileOutputStream fos = new FileOutputStream(archivo, true);
-            ps = new PrintStream(fos);
-
-        } catch (FileNotFoundException fnfe) {
-            JOptionPane.showMessageDialog(null, "error");
-            
-        }
-        return ps;
-    }
+    
 
 
     public String getCodigoISSN() {

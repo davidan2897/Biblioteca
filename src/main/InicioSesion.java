@@ -30,16 +30,18 @@ public class InicioSesion extends Application {
     
     PantallaBibliotecario pantbiblio = new PantallaBibliotecario();
     Stage primaryStage = new Stage();
-    Stage secondStage = new Stage();;
+ 
+//    Stage secondStage = new Stage();
     Scene scene = new Scene(vbox(), 300, 200);
      GestionarBibliotecarios gestBiblio;
      TextField tfUsuario ;
       TextField tfContraseña;
       PasswordField passUsuario;
+      
      public VBox vbox(){
         GridPane ventanaInicio = new GridPane();
         VBox vbox = new VBox();
-        VBox vb=new VBox();
+     
       
         
         Label lbBiblioteca = new Label("Bienvenido al Sistema Virtual de la Biblioteca UCR");
@@ -61,12 +63,13 @@ public class InicioSesion extends Application {
             boolean estado=gestBiblio.verificarUsuario(gestBiblio.arregloUsuarios(),usuario, contraseña);
             if(estado==true){
             if(cbtipoUsuario.getValue().toString().equalsIgnoreCase("Bibliotecario")) {
-                
-          primaryStage.close();
-          scene= new Scene(pantbiblio.InterBibliotecario(), 500, 400);
-          secondStage.setScene(scene);
-          secondStage.setTitle("Biblioteca");
-          secondStage.show();
+                //scene = new Scene(pantbiblio.InterBibliotecario(),400,500);
+                 //primaryStage.getScene().setRoot(pantbiblio.InterBibliotecario());
+                 scene.setRoot(pantbiblio.InterBibliotecario());
+          primaryStage.setScene(scene);
+//          secondStage.setTitle("Biblioteca");
+//          secondStage.show();
+               primaryStage.show();
             }
             } else{
                 JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrecta");
