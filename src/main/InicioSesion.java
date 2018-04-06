@@ -63,13 +63,12 @@ public class InicioSesion extends Application {
             boolean estado=gestBiblio.verificarUsuario(gestBiblio.arregloUsuarios(),usuario, contraseña);
             if(estado==true){
             if(cbtipoUsuario.getValue().toString().equalsIgnoreCase("Bibliotecario")) {
-                //scene = new Scene(pantbiblio.InterBibliotecario(),400,500);
-                 //primaryStage.getScene().setRoot(pantbiblio.InterBibliotecario());
-                 scene.setRoot(pantbiblio.InterBibliotecario());
+           scene = new Scene(pantbiblio.InterBibliotecario(),500,400);
+                 
           primaryStage.setScene(scene);
-//          secondStage.setTitle("Biblioteca");
-//          secondStage.show();
-               primaryStage.show();
+        primaryStage.setTitle("Biblioteca");
+        primaryStage.show();
+            
             }
             } else{
                 JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrecta");
