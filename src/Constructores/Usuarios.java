@@ -1,4 +1,10 @@
-package domain;
+package Constructores;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import javax.swing.JOptionPane;
 
 /************************************************************/
 /**
@@ -119,4 +125,18 @@ public abstract class Usuarios {
 	 * 
 	 */
 	public abstract void Mostrar();
+        
+        public PrintStream getPrintStream(String nombreArchivo) {
+        File archivo = new File(nombreArchivo);
+        PrintStream ps = null;
+        try {
+            FileOutputStream fos = new FileOutputStream(archivo, true);
+            ps = new PrintStream(fos);
+
+        } catch (FileNotFoundException fnfe) {
+            JOptionPane.showMessageDialog(null, "error");
+            
+        }
+        return ps;
+    }
 };

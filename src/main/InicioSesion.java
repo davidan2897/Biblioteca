@@ -5,9 +5,10 @@
  */
 package main;
 
-
-import Interfaces.PantallaBibliotecario;
+ //David
+import PantallasPrincipales.PantallaBibliotecario;
 import Interfaces.Usuarios.GestionarBibliotecarios;
+import PantallasPrincipales.PantallaAutor;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,19 +28,24 @@ import javax.swing.JOptionPane;
 public class InicioSesion extends Application {
     
     //instancias globales
-    
-    PantallaBibliotecario pantbiblio = new PantallaBibliotecario();
-    Stage primaryStage = new Stage();
-    Stage secondStage = new Stage();;
-    Scene scene = new Scene(vbox(), 300, 200);
+ 
+    PantallaBibliotecario pantallabibliotecario = new PantallaBibliotecario();
+    PantallaAutor pantallaAutor = new PantallaAutor();
+    PantallaAutor pantallaUsuario = new PantallaAutor();
+    public static String valor;
+
+
      GestionarBibliotecarios gestBiblio;
      TextField tfUsuario ;
       TextField tfContraseña;
       PasswordField passUsuario;
+      String NombreUnicoAutor;
+      
      public VBox vbox(){
         GridPane ventanaInicio = new GridPane();
         VBox vbox = new VBox();
-        VBox vb=new VBox();
+    
+     
       
         
         Label lbBiblioteca = new Label("Bienvenido al Sistema Virtual de la Biblioteca UCR");
@@ -53,53 +59,86 @@ public class InicioSesion extends Application {
       
         Label lbContraseña = new Label("Contraseña");
         Button btnConfirmar= new Button("Confirmar");
+        
         btnConfirmar.setOnAction((event) -> {
+          
             gestBiblio=new GestionarBibliotecarios();
             String contraseña=passUsuario.getText();
           
             String usuario=tfUsuario.getText();
             boolean estado=gestBiblio.verificarUsuario(gestBiblio.arregloUsuarios(),usuario, contraseña);
             if(estado==true){
-            if(cbtipoUsuario.getValue().toString().equalsIgnoreCase("Bibliotecario")) {
-                
-          primaryStage.close();
-          scene= new Scene(pantbiblio.InterBibliotecario(), 500, 400);
-          secondStage.setScene(scene);
-          secondStage.setTitle("Biblioteca");
-          secondStage.show();
+                if(cbtipoUsuario.getValue().toString().equalsIgnoreCase("Bibliotecario")) {
+                    
+                    
+                    Scene temScene = btnConfirmar.getScene();
+                    temScene.setRoot(pantallabibliotecario.InterBibliotecario());
+                    
+                    ((Stage) temScene.getWindow()).setWidth(600);
+                    ((Stage) temScene.getWindow()).setHeight(400);
+                    ((Stage) temScene.getWindow()).setTitle("Biblioteca");
+                    ((Stage) temScene.getWindow()).setResizable(false);
+                    
+                }
+                if(cbtipoUsuario.getValue().toString().equalsIgnoreCase("Autor")) {
+                    NombreUnicoAutor=tfUsuario.getText();
+                 Scene temScene = btnConfirmar.getScene();
+                 valor=tfUsuario.getText();
+                    temScene.setRoot(pantallaAutor.interfazAutor());
+                    
+                    ((Stage) temScene.getWindow()).setWidth(600);
+                    ((Stage) temScene.getWindow()).setHeight(400);
+                    ((Stage) temScene.getWindow()).setTitle("Biblioteca");
+                    ((Stage) temScene.getWindow()).setResizable(false);
+            }
+                if(cbtipoUsuario.getValue().toString().equalsIgnoreCase("Usuario")) {
+                 Scene temScene = btnConfirmar.getScene();
+                    temScene.setRoot(pantallaUsuario.interfazAutor());
+                    
+                    ((Stage) temScene.getWindow()).setWidth(600);
+                    ((Stage) temScene.getWindow()).setHeight(400);
+                    ((Stage) temScene.getWindow()).setTitle("Biblioteca");
+                    ((Stage) temScene.getWindow()).setResizable(false);
             }
             } else{
                 JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrecta");
             }
-        });
+          
+        });//fin acc
         
         tfUsuario = new TextField();
         //tfContraseña = new TextField();
         passUsuario=new PasswordField();
      
+         ventanaInicio.add(lbtipoUsuario, 0, 0);
+         ventanaInicio.add(cbtipoUsuario, 1, 0);
+         ventanaInicio.add(lbUsuario, 0, 1);
+         ventanaInicio.add(tfUsuario, 1, 1);
+         ventanaInicio.add(lbContraseña, 0, 4);
+         ventanaInicio.add(passUsuario, 1, 4);
+         ventanaInicio.add(btnConfirmar, 0, 5);
+         String image = "inicioSesion.png";
+        
+         vbox.setStyle("-fx-background-image: url('" + image + "'); "
+                 + "-fx-background-position:bottom center;"
+                 + "-fx-background-repeat: no-repeat;");
+         vbox.getChildren().addAll(lbBiblioteca, ventanaInicio);
 
-        
-        ventanaInicio.add(lbtipoUsuario, 0, 0);
-        ventanaInicio.add(cbtipoUsuario, 1, 0);
-        ventanaInicio.add(lbUsuario, 0, 1);
-        ventanaInicio.add(tfUsuario, 1, 1);
-        ventanaInicio.add(lbContraseña, 0, 4);
-        ventanaInicio.add(passUsuario, 1, 4);
-        ventanaInicio.add(btnConfirmar, 0, 5);
-        
-        vbox.getChildren().addAll( lbBiblioteca,ventanaInicio);
-        
-        return vbox;
+         return vbox;
         
         
     }//fin vbox
     
     @Override
-    public void start( Stage primaryStage) {
-      
-        primaryStage.setTitle("Inicio Sesion Biblioteca");
+    public void start( Stage primaryStage ) {
+        Scene scene = new Scene(vbox(), 300, 200);
+         
+        primaryStage.setTitle("Iniciar Sesion");
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setResizable(false);
+        
+                    
     }
 
     public static void main(String[] args) {

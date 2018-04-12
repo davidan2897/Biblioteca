@@ -5,47 +5,66 @@
  */
 package Interfaces.Usuarios;
 
-import domain.Bibliotecarios;
-import domain.CreayLeeArchivos;
+import Constructores.Bibliotecarios;
+import Interfaces.Catalogo.CreayLeeArchivos;
+import Interfaces.Catalogo.UtilidadesGestionar;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.StringTokenizer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
+import javafx.geometry.Pos;
+
 import javafx.geometry.Insets;
+
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+
+import javafx.scene.layout.HBox;
+
 import javafx.scene.text.Font;
+
 import javax.swing.JOptionPane;
+//import org.apache.commons.codec.digest.DigestUtils;
+
 
 /**
  *
  * @author David
  */
 public class GestionarBibliotecarios {
+
     public String nombreUni;
     public String nombreComple;
     static String identificacio;
     static String tipoIdentifica;
     static String tipoUsuario;
     public String contrase;
-    String []datosArchivo;
+
+    String[] datosArchivo;
+
     TextField nombreUnic;
     TextField nombreComplet;
     TextField Tipoidentificacion, identificacionModificar, obra, mostrarIdentificacion;
     TextField identi;
     TextField contraseñ;
+
+    TextField campoTextoUsuario;
+
     TextField tipoUsuari;
     Button btnAgregar, actualizarBibliotecario;
-    Label mensajes, identificacion, mostarIdentificacion,nombre, mostrarNombre,contraseña,nombreUnico,TipoUsuario,Obra, usuarioActualiar;
+    Label mensajes, identificacion, mostarIdentificacion, nombre, mostrarNombre, contraseña, nombreUnico, TipoUsuario, Obra, usuarioActualiar;
+    UtilidadesGestionar utilGestionar = new UtilidadesGestionar();
 
     
      public GridPane interAddBibliotecario(){
@@ -75,12 +94,14 @@ public class GestionarBibliotecarios {
         gpVentanaBibliotecario.add(contraseñ, 1, 4);
          Label tipoUsuar = new Label("Tipo de Usuario");
         gpVentanaBibliotecario.add(tipoUsuar, 0, 5);
-        tipoUsuari = new TextField();
+        TextField tipoUsuari = new TextField("Bibliotecario");
         gpVentanaBibliotecario.add(tipoUsuari, 1, 5);
-//        Msj = new Label("");
+
            gpVentanaBibliotecario.add(btnAgregar, 0, 7);
-//        gpVentanaBibliotecario.add(Msj,0,6);
-    
+        tipoUsuari.setDisable(true);
+        String archivoNombre ="Usuarios.txt";
+  
+        //AccionBotonAgregar
         btnAgregar.setOnAction(new EventHandler<ActionEvent>() {
             
              public void handle(ActionEvent event) {
@@ -88,20 +109,30 @@ public class GestionarBibliotecarios {
                        
                 if(verificaInfo() == true)
            JOptionPane.showMessageDialog(null, "Porfavor ingrese toda la informacion necesaria.");
-                else{   
-                 nombreUni = nombreUnic.getText();
-                 nombreComple = nombreComplet.getText();
-                 tipoIdentifica = Tipoidentificacion.getText();
-                 identificacio = identi.getText();
-                 contrase = contraseñ.getText();
-                 tipoUsuario=tipoUsuari.getText();
-               Bibliotecarios bi=new Bibliotecarios(nombreUni, contrase, nombreComple, tipoIdentifica, identificacio,tipoUsuario);
-                bi.Agregar(bi);
-                JOptionPane.showMessageDialog(null,"Bibliotecario agregado con exito :)");
-                 Limpiar();
-                
-             }}
-                       
+                else {
+
+                    nombreUni = nombreUnic.getText();
+                    if (utilGestionar.buscar(nombreUni, utilGestionar.getArreglo(utilGestionar.CantidadRegistros(archivoNombre), archivoNombre)) == true)
+                    JOptionPane.showMessageDialog(null, "Nombre de usuario(" + nombreUni + ") ya registrado intente con alguno diferente");
+
+                    nombreComple = nombreComplet.getText();
+                    tipoIdentifica = Tipoidentificacion.getText();
+                    identificacio = identi.getText();
+                    contrase = contraseñ.getText();
+                    tipoUsuario = tipoUsuari.getText();
+//                    String contraseñaEncriptada = DigestUtils.md5Hex(contrase);
+                    if (utilGestionar.buscar(nombreUni, utilGestionar.getArreglo(utilGestionar.CantidadRegistros(archivoNombre), archivoNombre)) != true) {
+
+//                        Bibliotecarios bi = new Bibliotecarios(nombreUni, contraseñaEncriptada, nombreComple, tipoIdentifica, identificacio, tipoUsuario);
+
+//                        bi.Agregar(bi);
+                        JOptionPane.showMessageDialog(null, "Bibliotecario agregado con exito :)");
+                        Limpiar();
+                    }//fin ifbuscar
+                }
+             
+            }//fin btnagregar
+
               });
              
             
@@ -113,7 +144,6 @@ public class GestionarBibliotecarios {
       Tipoidentificacion.setText("");
       identi.setText("");
       contraseñ .setText("");
-      tipoUsuari.setText("");
             }
      
             //Metodo que verifica que todos los espacios de informacion esten llenos
@@ -170,7 +200,7 @@ public class GestionarBibliotecarios {
         Bibliotecarios elementosUsuarios[] = new Bibliotecarios[CantidadRegistrosUsuarios()];
         int indice = 0;
         try {
-            BufferedReader br = getBufferedReader("Usuarios.txt");
+            BufferedReader br =getBufferedReader("Usuarios.txt");
             String registro = br.readLine();
             while (registro != null) {
 
@@ -231,159 +261,188 @@ public class GestionarBibliotecarios {
             JOptionPane.showMessageDialog(null, "error");
         }
         return br;
-    } 
- 
- 
- //Retorna interfaz del menu modificar
-     public GridPane modificarBibliotecario(){
-        //Crea Gridpane
-        GridPane modificaBibliotecario = new GridPane();
-        modificaBibliotecario.setHgap(10);
-        modificaBibliotecario.setVgap(10);
-        modificaBibliotecario.setPadding(new Insets(20));
+    }
+    
+ public BorderPane ventanaBorrar(){
+   
+     BorderPane BorrarVentana = new BorderPane();
+     GridPane ventanaCentroBorrar = new GridPane();
+     HBox OrdenBotones = new HBox();
+     Label etiquetaIngresoTipoUsuario = new Label("Tipo de Usuario:");
+     Label Ordenartop = new Label("\n\n\n\n\n\n");
+     Label Espacio = new Label("                ");
+    ComboBox<String> comboBoxtipoUsuario = new ComboBox();
+        comboBoxtipoUsuario.getItems().addAll("Usuario", "Autor", "Bibliotecario");
+   
+        Label etiquetaUsuario = new Label("Usuario:");
+    campoTextoUsuario = new TextField();
+    
+    
+     Button btnBorrar = new Button("Borrar");
+     Button btnIngresar= new Button("Ingresar");
+     Button btnCancelar = new Button("Cancelar");
      
-         //Crea Gridpane
-        GridPane modificarBiliotecario = new GridPane();
-        modificarBiliotecario.setHgap(10);
-        modificarBiliotecario.setVgap(10);
-        modificarBiliotecario.setPadding(new Insets(20));
+     
+      btnBorrar.setDisable(true);
+        btnCancelar.setDisable(true);
         
-        //Crea labels y textfields
-        Label titulo = new Label("Modificar Bibliotecario");
-        titulo.setFont(Font.font(17));
-        
-        Label usuarioModificar = new Label("Introduzca la identificacion");
-        usuarioModificar.setFont(Font.font(17));
-        
-        identificacionModificar = new TextField();
-        identificacionModificar.setPromptText("Identificacion");
-
-        mensajes = new Label();
-        mensajes.setFont(Font.font(17));
-        
-        identificacion = new Label("Cédula");
-        identificacion.setFont(Font.font(17));
-        mostarIdentificacion = new Label();
-        mostarIdentificacion.setFont(Font.font(17));
-        
-        nombre = new Label("Nombre");
-        nombre.setFont(Font.font(17));
-        mostrarNombre = new Label();
-        mostrarNombre.setFont(Font.font(17));
-        
-        Obra = new Label("Teléfono");
-        Obra.setFont(Font.font(17));
-        obra = new TextField();
-        
-        nombreUnico = new Label("Correo");
-        nombreUnico.setFont(Font.font(17));
-        nombreUnic= new TextField();
-        
-        contraseña = new Label("Residencia");
-        contraseña.setFont(Font.font(17));
-        contraseñ = new TextField();
-        
-        
-        TipoUsuario = new Label("Dirección");
-        TipoUsuario.setFont(Font.font(17));
-        tipoUsuari = new TextField();
-        
-        //Oculta labels
-        ocultaComponentes(false);
-        
-        CreayLeeArchivos cyla= new CreayLeeArchivos();
-        
-           Button verifica = new Button("Verificar");
-        verifica.setFont(Font.font(17));
-        //Pregunta si el usuario existe y muestra los componentes
-        verifica.setOnAction(e -> {
-           
-            if(cyla.existeUsuario(identificacionModificar.getText(), "Bibliorecarios.txt")){
-                ocultaComponentes(true);
-                modificarBiliotecario.setVisible(true);
-                mensajes.setVisible(false);
-                
-                datosArchivo = cyla.getDatosEspecificos("Bibliotecarios.txt", identificacionModificar.getText());
-                
-                mostarIdentificacion.setText(datosArchivo[0]);
-                mostrarNombre.setText(datosArchivo[1]);
-                obra.setText(datosArchivo[2]);
-                nombreUnic.setText(datosArchivo[4]);
-                contraseñ.setText(datosArchivo[5]);
-                tipoUsuari.setText(datosArchivo[3]);
-                mensajes.setVisible(false);
-            }
-            else{
-                ocultaComponentes(false);
-                mensajes.setText("El cliente no existe");
-                modificarBiliotecario.setVisible(false);
-            }
-        });
-        //Agrega componentes al Gridpane
-        modificarBiliotecario.add(titulo, 1, 0);
-        modificarBiliotecario.add(usuarioActualiar, 0, 1);
-        modificarBiliotecario.add(identificacionModificar, 1, 1);
-        modificarBiliotecario.add(verifica, 1, 2);
-        modificarBiliotecario.add(identificacion, 0, 3);
-        modificarBiliotecario.add(mensajes, 1, 3);
-        modificarBiliotecario.add(mostarIdentificacion, 1, 3);
-        modificarBiliotecario.add(nombre, 0, 4);
-        modificarBiliotecario.add(mostrarNombre, 1, 4);
-        modificarBiliotecario.add(TipoUsuario, 0, 5);
-        modificarBiliotecario.add(tipoUsuari, 1, 5);
-        modificarBiliotecario.add(nombreUnico, 0, 6);
-        modificarBiliotecario.add(nombreUnic, 1, 6);
-        modificarBiliotecario.add(Obra, 0, 7);
-        modificarBiliotecario.add(obra, 1, 7);
-        modificarBiliotecario.add(getButtonModificarBibliotecario(), 0, 8);
-        
-    return modificarBiliotecario;
-    }//Fin modificarUsuarios
-     public Button getButtonModificarBibliotecario(){
-        //Crea boton
-        actualizarBibliotecario = new Button("Modificar Bibliotecario");
-       actualizarBibliotecario.setFont(Font.font(17));
-     actualizarBibliotecario.setVisible(false);
-        
-        //Actualiza los datos del autor
-       actualizarBibliotecario.setOnAction(e -> {
-          CreayLeeArchivos cyla= new CreayLeeArchivos();
-            cyla.actualizarUsuario(mostrarIdentificacion.getText(), mostrarNombre.getText(), Tipoidentificacion.getText(),
-                                   contraseñ.getText(), identi.getText(), nombreUnic.getText());
-            mensajes.setVisible(true);
-            mensajes.setText("El bibliotecario ha sido actualizado con exito");
-            ocultaComponentes(false);
-            identificacionModificar.setText("");
-            actualizarBibliotecario.setVisible(false);
-        });
-    return  actualizarBibliotecario;
-    }//Fin getButtonActualizarCliente
-    
+        //Accion boton Ingresar
+        btnIngresar.setOnAction((event) -> {
+            
+              tipoUsuario = comboBoxtipoUsuario.getValue();
+              nombreUni= campoTextoUsuario.getText();
+              if(nombreUni.isEmpty()==true)
+                  JOptionPane.showMessageDialog(null,"No se ha ingresado ningun usuario" );
+              else
+     if(buscaUsuario(tipoUsuario, getArreglo(CantidadRegistrosUsuarios()), nombreUni  )==true){
+         btnBorrar.setDisable(false);
+         btnCancelar.setDisable(false);
+         btnIngresar.setDisable(true);
          
-    //Oculta y muestra componentes
-    public void ocultaComponentes(boolean visible){
-        mostarIdentificacion.setVisible(visible);
-        identificacion.setVisible(visible);
-        mostrarNombre.setVisible(visible);
-        nombre.setVisible(visible);
-        nombreUnic.setVisible(visible);
-        nombreUnico.setVisible(visible);
-        contraseñ.setVisible(visible);
-        contraseña.setVisible(visible);
-        tipoUsuari.setVisible(visible);
-        Tipoidentificacion.setVisible(visible);
-        obra.setVisible(visible);
-        Obra.setVisible(visible);
-       
-        //Limpia componentes
-        if(!visible){
-            mostarIdentificacion.setText("");
-            mostrarNombre.setText("");
-            contraseñ.setText("");
-            identi.setText("");
-            tipoUsuari.setText("");
-            obra.setText("");
-        }
-    }//Fin ocultaComponentes
+     }
+     else
+    JOptionPane.showMessageDialog(null, "Usuario no se encuentra en registro");
+          
+        });//fin btnIngresar
+        //Accion boton borrar
+        btnBorrar.setOnAction((event) -> {
+         
+            eliminarUsuario(tipoUsuario, getArreglo(CantidadRegistrosUsuarios()), nombreUni);
+            JOptionPane.showMessageDialog(null, "Usuario eliminado con exito");
+             btnBorrar.setDisable(true);
+             campoTextoUsuario.setText("");
+             btnIngresar.setDisable(false);
+             btnCancelar.setDisable(true);
+        });//fin borrar
+        btnCancelar.setOnAction((event) -> {
+            campoTextoUsuario.setText("");
+            btnBorrar.setDisable(true);
+            btnCancelar.setDisable(true);
+            btnIngresar.setDisable(false);
+            
+          });//fin botonCancelar
+        
+     OrdenBotones.getChildren().addAll(btnIngresar,btnBorrar,btnCancelar);
+     
+     
+     ventanaCentroBorrar.add(etiquetaIngresoTipoUsuario, 0, 0);
+     ventanaCentroBorrar.add(comboBoxtipoUsuario, 1, 0);
+   
+     ventanaCentroBorrar.add(etiquetaUsuario, 0, 2);
+     ventanaCentroBorrar.add(campoTextoUsuario, 1, 2);
+
+     ventanaCentroBorrar.add(OrdenBotones, 1, 4);
+     
     
+            
+    BorrarVentana.setRight(Espacio);
+    BorrarVentana.setTop(Ordenartop);
+    BorrarVentana.setCenter(ventanaCentroBorrar);
+    ventanaCentroBorrar.setAlignment(Pos.CENTER);
+
+     
+     
+        return BorrarVentana;
+     
+     
+     
+     
+ }//finVentanaCerrar
+ 
+  public boolean buscaUsuario(String tipoUsuario, String a[],String usuario) {
+        String tipoUsuarioArchivo = "", usuarioArchivo = "",  aux ="";
+       
+        boolean encontrado = false;
+        for (int i = 0; i < a.length; i++) {
+            aux = a[i];
+
+            StringTokenizer st = new StringTokenizer(aux, ";");
+          
+            int controlaTokens = 1;
+            while (st.hasMoreTokens()) {
+
+                    if (controlaTokens == 1) 
+                        usuarioArchivo = st.nextToken();
+                     else if (controlaTokens == 2) 
+                        st.nextToken();
+                     else if (controlaTokens == 3) 
+                       st.nextToken();
+                    else if (controlaTokens == 4) 
+                         st.nextToken();
+                     else if (controlaTokens == 5) 
+                       st.nextToken();
+                    else if(controlaTokens==6)
+                     tipoUsuarioArchivo =  st.nextToken();
+                   
+                    controlaTokens++;
+                //Fin del While 2;
+            
+            }
+               
+            
+            if (tipoUsuario.equals(tipoUsuarioArchivo) && usuario.equalsIgnoreCase(usuarioArchivo)) {
+                encontrado = true;
+                break;
+            }//fin if
+            
+     
+        }//fin for i
+
+        return encontrado;
+    }//fin buscaClientes
+  
+  public String[] getArreglo(int cantidadRegistros) {
+        File archivo = new File("Usuarios.txt");
+        String array[] = new String[cantidadRegistros];
+        String c;
+        int i = 0;
+        try {
+            BufferedReader br = getBufferedReader("Usuarios.txt");
+            c = br.readLine();
+
+            while (i < cantidadRegistros) {
+                array[i] = c;
+                c = br.readLine();
+                i++;
+            }//fin while
+
+        }//fin try
+        catch (IOException ioe) {
+            JOptionPane.showMessageDialog(null, "Problemas");
+
+        }
+
+        return array;
+
+    }//fin getArreglo
+  
+ public void eliminarUsuario(String tipoUsuario, String a[],String Usuario) {
+         String usuarios="",nombreUsuario;
+       try{
+           PrintStream ps = new PrintStream("Usuarios.txt");
+
+            for (int i = 0; i < a.length; i++) {
+                  usuarios= a[i];
+               StringTokenizer sT = new StringTokenizer( usuarios, ";");
+                 nombreUsuario =sT.nextToken();
+                if (nombreUsuario.equals(Usuario)){ 
+                   
+                   usuarios = "-1";
+                }
+                if(!usuarios.equalsIgnoreCase("-1"))
+                  ps.println(usuarios);
+         
+            }//fin for
+           
+     
+
+    }//try
+      
+       catch(FileNotFoundException fnf){
+                JOptionPane.showMessageDialog(null, "Un error ha pasado: Contacte con su administrador."); 
+    }//fin catch
+    
+ 
+    }//fin eliminarUsuarios
+ 
 }

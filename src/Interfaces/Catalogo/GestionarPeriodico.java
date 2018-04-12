@@ -5,18 +5,20 @@
  */
 package Interfaces.Catalogo;
 
-import domain.Memorias;
-import domain.Periodicos;
+import Constructores.Periodicos;
 import java.time.LocalDate;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,30 +26,33 @@ import javax.swing.JOptionPane;
  * @author UsuarioPC
  */
 public class GestionarPeriodico {
-        public String titulo;
-    
+//instancias globales
+    public String titulo;
     public String autor;
-     static String codigoIssn;
-      
+    static String codigoIssn;
     public String Edicion;
     public String fechaIngreso;
-     public String fechaPeriodico;
-    TextField texfieldTitulomemoria ;
+    public String fechaPeriodico;
+    public String Estado;
+    TextField texfieldTituloPeriodico;
     TextField textfieldAutor;
     TextField textfieldCodigoIssn;
     TextArea textareaEdicion;
     TextField fecha;
     Button btnAgregar;
     DatePicker datepickerFecha;
+    String tituloAux, nombreArchivo = "Periodicos.txt";
+UtilidadesGestionar utilGestionar = new UtilidadesGestionar();
+
     public GridPane AgregarPeriodico(){
     GridPane gpVentanaLibros = new GridPane();
         btnAgregar = new Button("Agregar");
          datepickerFecha = new DatePicker();
         Label labelTituloPeriodico = new Label("Titulo");
         gpVentanaLibros.add(labelTituloPeriodico, 0, 0);
-        texfieldTitulomemoria = new TextField();
-        gpVentanaLibros.add(texfieldTitulomemoria, 1, 0);
-        Label labelAutor= new Label("Nombre del autor");
+        texfieldTituloPeriodico = new TextField();
+        gpVentanaLibros.add(texfieldTituloPeriodico, 1, 0);
+        Label labelAutor= new Label("Autor");
         gpVentanaLibros.add(labelAutor, 0, 1);
          textfieldAutor= new TextField();
         gpVentanaLibros.add(textfieldAutor, 1, 1);
@@ -89,15 +94,16 @@ public class GestionarPeriodico {
                 if(verificaInfo() == true)
            JOptionPane.showMessageDialog(null, "Porfavor ingrese toda la informacion necesaria.");
                 else{   
-                 titulo = texfieldTitulomemoria.getText();
+                 titulo = texfieldTituloPeriodico.getText();
                  autor= textfieldAutor.getText();
                  codigoIssn=textfieldCodigoIssn.getText();
                 
                 Edicion = textareaEdicion.getText();
                  fechaPeriodico=fecha.getText();
-                Periodicos periodico=new Periodicos(titulo, fechaIngreso, autor, codigoIssn, Edicion, fechaPeriodico);
+                 Estado ="Disponible";
+                Periodicos periodico=new Periodicos(titulo, fechaIngreso, autor, codigoIssn, Edicion, fechaPeriodico,Estado);
                 periodico.Agregar(periodico);
-                JOptionPane.showMessageDialog(null,"Autor agregado con exito :)");
+                JOptionPane.showMessageDialog(null,"Periodico agregado con exito :)");
                  Limpiar();
                 
             }
@@ -110,19 +116,110 @@ public class GestionarPeriodico {
     
 }
     public void Limpiar(){
-      texfieldTitulomemoria.setText("");
+      texfieldTituloPeriodico.setText("");
       textfieldAutor.setText("");
       textfieldCodigoIssn.setText("");
-    
+      textareaEdicion.setText("");
+      fecha.setText("");
             }
     private boolean verificaInfo(){
-         if(texfieldTitulomemoria.getText().isEmpty())
+         if(texfieldTituloPeriodico.getText().isEmpty())
              return true;
          else if(textfieldAutor.getText().isEmpty())
              return true;
          else if(textfieldCodigoIssn.getText().isEmpty())
              return true;
+          else if(textareaEdicion.getText().isEmpty())
+             return true;
+           else if(fecha.getText().isEmpty())
+             return true;
          else
              return false;
      }
+       public BorderPane ventanaBorrarPeriodico(){
+   
+     BorderPane BorrarVentana = new BorderPane();
+     GridPane ventanaCentroBorrar = new GridPane();
+     HBox OrdenBotones = new HBox();
+     Label Ordenartop = new Label("\n\n\n\n\n\n");
+     Label Espacio = new Label("                ");
+
+     Label etiquetaLibro = new Label("Titulo del Periodico:");
+    texfieldTituloPeriodico = new TextField();
+    
+    
+     Button btnBorrar = new Button("Borrar");
+     Button btnIngresar= new Button("Ingresar");
+     Button btnCancelar = new Button("Cancelar");
+     
+     
+      btnBorrar.setDisable(true);
+        btnCancelar.setDisable(true);
+        
+        //Accion boton Ingresar
+        btnIngresar.setOnAction((event) -> {
+
+            tituloAux = texfieldTituloPeriodico.getText();
+            if (tituloAux.isEmpty() == true) {
+                JOptionPane.showMessageDialog(null, "No se ha ingresado ningun Periodico");
+            } 
+            else {
+                tituloAux = texfieldTituloPeriodico.getText();
+            
+            if (utilGestionar.buscar(tituloAux, utilGestionar.getArreglo(utilGestionar.CantidadRegistros(nombreArchivo), nombreArchivo))== true){
+                btnBorrar.setDisable(false);
+                btnCancelar.setDisable(false);
+                btnIngresar.setDisable(true);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Periodico no se encuentra en registro");
+            }
+            }
+
+        });//fin btnIngresar
+        
+        
+        //Accion boton borrar
+        btnBorrar.setOnAction((event) -> {
+            tituloAux = texfieldTituloPeriodico.getText();
+
+            btnBorrar.setDisable(true);
+            texfieldTituloPeriodico.setText("");
+            btnIngresar.setDisable(false);
+            btnCancelar.setDisable(true);
+            JOptionPane.showMessageDialog(null, "Periodico eliminado con exito");
+            utilGestionar.eliminar(tituloAux, utilGestionar.getArreglo(utilGestionar.CantidadRegistros(nombreArchivo),nombreArchivo),nombreArchivo);
+
+        });//fin borrar
+        btnCancelar.setOnAction((event) -> {
+            texfieldTituloPeriodico.setText("");
+            btnBorrar.setDisable(true);
+            btnCancelar.setDisable(true);
+            btnIngresar.setDisable(false);
+
+        });//fin botonCancelar
+        
+     OrdenBotones.getChildren().addAll(btnIngresar,btnBorrar,btnCancelar);
+     
+     
+
+   
+     ventanaCentroBorrar.add(etiquetaLibro, 0, 0);
+     ventanaCentroBorrar.add(texfieldTituloPeriodico, 1, 0);
+     ventanaCentroBorrar.add(OrdenBotones, 1, 1);
+    
+            
+    BorrarVentana.setRight(Espacio);
+    BorrarVentana.setTop(Ordenartop);
+    BorrarVentana.setCenter(ventanaCentroBorrar);
+    ventanaCentroBorrar.setAlignment(Pos.CENTER);
+
+     
+     
+        return BorrarVentana;
+     
 }
+       
+       
+}
+

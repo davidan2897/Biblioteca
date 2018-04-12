@@ -3,13 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain;
+package Constructores;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,8 +17,8 @@ public class Periodicos extends Catalogo {
     private String edicion;
     private String fecha;
     
-    public Periodicos(String titulo, String fechaIngreso, String Autor,String codigoISSN,String edicion,String fecha) {
-        super(titulo, fechaIngreso, Autor);
+    public Periodicos(String titulo, String fechaIngreso, String Autor,String codigoISSN,String edicion,String fecha,String Estado) {
+        super(titulo, fechaIngreso, Autor,Estado);
         this.codigoISSN=codigoISSN;
         this.edicion=edicion;
         this.fecha=fecha;
@@ -31,21 +27,9 @@ public class Periodicos extends Catalogo {
 		// TODO Auto-generated method stub
 	 PrintStream ps = getPrintStream("Periodicos.txt");
 
-        ps.println(periodicos.getTitulo() + ";" + periodicos.getFechaIngreso()+ ";" + periodicos.getAutor()+ ";" + periodicos.getCodigoISSN() + ";" + periodicos.getEdicion()+";"+periodicos.getFecha());
+        ps.println(periodicos.getTitulo() + ";" + periodicos.getFechaIngreso()+ ";" + periodicos.getAutor()+ ";" + periodicos.getCodigoISSN() + ";" + periodicos.getEdicion()+";"+periodicos.getFecha()+";"+periodicos.getEstado());
 	}
-    public PrintStream getPrintStream(String nombreArchivo) {
-        File archivo = new File(nombreArchivo);
-        PrintStream ps = null;
-        try {
-            FileOutputStream fos = new FileOutputStream(archivo, true);
-            ps = new PrintStream(fos);
-
-        } catch (FileNotFoundException fnfe) {
-            JOptionPane.showMessageDialog(null, "error");
-            
-        }
-        return ps;
-    }
+    
 
 
     public String getCodigoISSN() {
