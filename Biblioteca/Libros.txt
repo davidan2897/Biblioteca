@@ -1,1 +1,2 @@
-﻿La música en las catedrales españolas del Siglo de Oro ;3/4/2018;Robert Stevenson;8420685623; Se trata de una actualización de un libro de 1961, ampliado con numerosísimas notas por parte del autor y traducido al español ;Incluye un análisis somero de algunas obras, y un catálogo con todas sus obras
+libro;11/4/2018;autor;codigo;tema;subtema;Prestado
+dd;12/4/2018;a;ff;ff;ff;Disponible
